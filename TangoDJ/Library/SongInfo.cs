@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace TangoDJ.Library
 {
@@ -7,41 +8,42 @@ namespace TangoDJ.Library
 	/// </summary>
 	public class SongInfo
 	{
-		private System.Collections.Generic.Dictionary<string, string> _fields = new System.Collections.Generic.Dictionary<string, string>();
+		private static readonly Dictionary<string, string> _fieldMap = new Dictionary<string, string>() {
+			{ "TALB", "Album" },
+			{ "TBPM", "BPM" },
+			{ "TCOM", "Composer" },
+			{ "TCON", "Content Type" },
+			{ "TCOP", "Copyright message" },
+			{ "TDAT", "Date" },
+			{ "TENC", "Encoded by" },
+			{ "TIME", "Time" },
+			{ "TIT1", "Content group description" },
+			{ "TIT2", "Title/songname/content description" },
+			{ "TKEY", "Initial key" },
+			{ "TLEN", "Length" },
+			{ "TOPE", "Original artist(s)/performer(s)" },
+			{ "TPE1", "Lead performer(s)/Soloist(s)" },
+			{ "TPE2", "Band/orchestra/accompaniment" },
+			{ "TPOS", "Part of a set" },
+			{ "TPUB", "Publisher" },
+			{ "TRCK", "Track number/Position in set" },
+			{ "TSSE", "Software/Hardware and settings used for encoding" },
+			{ "TYER", "Year" },
+			{ "WOAF", "Official audio file webpage" },
+			{ "WOAR", "Official artist/performer webpage" },
+			{ "WOAS", "Official audio source webpage" },
+			{ "WPAY", "Payment" }
+		};
+		private System.Collections.Generic.Dictionary<string, string> _fieldValues = new System.Collections.Generic.Dictionary<string, string>();
 
-		public string Album		{get;private set;}
-		public string Artist	{get;private set;}
-		public string BandOrchestraAccompaniment	{get;private set;}
-		public string BPM	{get;private set;}
-		public string Composer	{get;private set;}
-		public string ContentGroupDescription	{get;private set;}
-		public string CommercialInformation	{get;private set;}
-		public string ContentType	{get;private set;}
-		public string CopyrightMessage	{get;private set;}
-		public string Date	{get;private set;}
-		public string EncodedBy	{get;private set;}
-		public string FileType{get; private set;}
-		public string Genre		{get;private set;}
-		public string InitialKey	{get;private set;}
-		public string Language	{get;private set;}
-		public string LeadPerformer	{get;private set;}
-		public string Length	{get;private set;}
-		public string MediaType	{get;private set;}
-		public string OfficialArtistPerformerWebpage	{get;private set;}
-		public string OfficialAudioFileWebpage		{get;private set;}
-		public string OfficialAudioSourceWebpage	{get;private set;}
-		public string OriginalArtistPerformer	{get;private set;}
-		public string Path	{get;private set;}
-		public string Payment	{get;private set;}
-		public string SoftwareHardwareAndSettingsUsedForEncoding	{get;private set;}
-		public string SubtitleDescriptionRefinement	{get;private set;}
-		public string Time	{get;private set;}
-		public string Title		{get;private set;}
-		public string PartOfSet	{get;private set;}
-		public string PublishersWebPage	{get;private set;}
-		public string Track	{get;private set;}
-		public string Year	{get;private set;}
-		
+		public string Album		{get{return _fieldValues["TALB"];} private set{ _fieldValues.Add ("TALB", value);}}
+		public string Artist	{get{return _fieldValues["TOPE"];} private set{ _fieldValues.Add ("TOPE", value);}}
+		public string ContentType	{get{return (_fieldValues.ContainsKey ("TCON")) ? _fieldValues["TCON"] : "";} private set{ _fieldValues.Add ("TCON", value);}}
+		public string Genre		{get{return "";}}
+		public string LeadPerformer	{get{return _fieldValues["TPE1"];} private set{ _fieldValues.Add ("TPE1", value);}}
+		public string Path		{get; private set;}
+		public string Title		{get{return _fieldValues["TIT2"];} private set{ _fieldValues.Add ("TIT2", value);}}
+
 		public SongInfo (string path)
 		{
 			Path = path;
@@ -53,15 +55,23 @@ namespace TangoDJ.Library
 				Artist = i.ID3v1Info.Artist;
 				//Genre = i.ID3v1Info.Genre;
 				Title = i.ID3v1Info.Title;
-				
-				
+
 				foreach(ID3.ID3v2Frames.TextFrames.TextFrame tf in i.ID3v2Info.TextFrames){
+					if(_fieldMap.ContainsKey(tf.FrameID)){
+						if(_fieldValues.ContainsKey (tf.FrameID)) _fieldValues[tf.FrameID] = tf.Text; else _fieldValues.Add (tf.FrameID, tf.Text);
+					} else {
+						System.Console.WriteLine("Could not handle TextFrame " + tf.FrameID + " for song " + path);
+					}
+				}
+				
+				/*foreach(ID3.ID3v2Frames.TextFrames.TextFrame tf in i.ID3v2Info.TextFrames){
 					if(tf.FrameID == "TALB") Album = tf.Text;
 					else if(tf.FrameID == "TBPM") BPM	= tf.Text;
 					else if(tf.FrameID == "TCOM") Composer	= tf.Text;
 					else if(tf.FrameID == "TCON") ContentType	= tf.Text;
 					else if(tf.FrameID == "TCOP") CopyrightMessage	= tf.Text;
 					else if(tf.FrameID == "TDAT") Date	= tf.Text;
+					else if(tf.FrameID == "TDEN") EncodingTime = tf.Text;
 					else if(tf.FrameID == "TENC") EncodedBy = tf.Text;
 					else if(tf.FrameID == "TFLT") FileType = tf.Text;
 					else if(tf.FrameID == "TIME") Time	= tf.Text;
@@ -86,7 +96,7 @@ namespace TangoDJ.Library
 					else if(tf.FrameID == "WOAS") OfficialAudioSourceWebpage = tf.Text;
 					else if(tf.FrameID == "WPAY") Payment = tf.Text;
 					else System.Console.WriteLine("Could not handle TextFrame " + tf.FrameID + " for song " + path); //throw new NotImplementedException("Could not handle TextFrame " + tf.FrameID + " for song " + path);
-				}
+				} */
 			}catch(System.ArgumentOutOfRangeException aoore){
 				System.Console.WriteLine (path + Environment.NewLine + aoore.ToString ());
 			}
