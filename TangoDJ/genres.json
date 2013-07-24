@@ -1,0 +1,35 @@
+{
+	"genres":[
+		{
+			"name":"Cortina",
+			"artistcontains":["cortina"],
+			"selectable":"false"
+		},
+		{
+			"name":"Milonga",
+			"genrecontains":["milonga"],
+			"selectable":"true"
+		},
+		{
+			"name":"Modern",
+			"artistcontains":["Piazzolla"],
+			"selectable":"true"
+
+		},
+		{
+			"name":"Not Tango",
+			"genrecontains":["audio book"],
+			"selectable":"false"
+		},
+		{
+			"name":"Tango",
+			"genrecontains":["tango"],
+			"selectable":"true"
+		},
+		{
+			"name":"Vals",
+			"genrecontains":["vals"],
+			"selectable":"true"
+		}
+	]
+}
