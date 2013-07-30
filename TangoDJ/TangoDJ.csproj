@@ -87,6 +87,7 @@
     <Compile Include="Player\Playlist.cs" />
     <Compile Include="Library\ScanArgs.cs" />
     <Compile Include="UI\SongInfo.cs" />
+    <Compile Include="UI\SongList.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
