@@ -14,9 +14,10 @@ namespace TangoDJ.Library
 		private SongList _songs = new SongList();
 		
 		public string[] ArtistContains{get;set;}
+		public int		Count{ get { return _songs.Count; } }
 		public string[] GenreContains{get;set;}
-		public string Name{get;private set;}
-		public bool Selectable{get; set;}
+		public string	Name{get;private set;}
+		public bool		Selectable{get; set;}
 
 		public Genre (string name)
 		{

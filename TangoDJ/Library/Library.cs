@@ -133,15 +133,26 @@ namespace TangoDJ.Library
 			_scanningThread.Start (new ScanArgs(this, "/home/"));
 		}
 		
-		private static void Scan(object scanArgs){
-			if(scanArgs == null) throw new ArgumentNullException("scanArgs");
-			if(!(scanArgs.GetType() == typeof(ScanArgs))) throw new ArgumentException("Expected argument of type scanArgs");
+		private static void Scan (object scanArgs)
+		{
+			if (scanArgs == null)
+				throw new ArgumentNullException ("scanArgs");
+			if (!(scanArgs.GetType () == typeof(ScanArgs)))
+				throw new ArgumentException ("Expected argument of type scanArgs");
 			
 			ScanArgs sa = (ScanArgs)scanArgs;
 			
-			if(sa.Lib.ScanStarted != null) sa.Lib.ScanStarted(sa.Lib, new EventArgs());
+			if (sa.Lib.ScanStarted != null)
+				sa.Lib.ScanStarted (sa.Lib, new EventArgs ());
 			sa.Lib.Scan (sa.Path);
 			sa.Lib.WriteNoGenre ();
+
+			System.Console.WriteLine ("Scan Finished!");
+			foreach (Genre g in sa.Lib.Genres) {
+				System.Console.WriteLine (g.Name + ": " + g.Count);
+			}
+			System.Console.WriteLine ("No Genre: " + sa.Lib._noGenre.Count);
+
 			if(sa.Lib.ScanFinished != null) sa.Lib.ScanFinished(sa.Lib, new EventArgs());
 		}
 		private void Scan(string path){
@@ -155,7 +166,7 @@ namespace TangoDJ.Library
 				if(!System.IO.Path.GetFileName (d).StartsWith ("."))
 					Scan (d);
 			}
-		}
+		} 
 		/// <summary>
 		/// Outputs a text file containing a list of the songs that don't have a genre defined so 
 		/// that the user can update the genres.json.  There should be a way to see these in the 
