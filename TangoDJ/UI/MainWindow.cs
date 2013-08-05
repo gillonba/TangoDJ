@@ -68,6 +68,10 @@ public partial class MainWindow: Gtk.Window
 			scan.Activated += OnScan;
 			editmenu.Append (scan);
 
+			MenuItem noGenreDetails = new MenuItem("No Genre Details");
+			noGenreDetails.Activated += OnNoGenreDetails;
+			editmenu.Append (noGenreDetails);
+
         	mb.Append(file);
 			mb.Append(edit);
 			
@@ -152,6 +156,9 @@ public partial class MainWindow: Gtk.Window
 		}
 		protected void OnExit(object sender, EventArgs e){
 			Application.Quit ();
+		}
+		protected void OnNoGenreDetails(object sender, EventArgs e){
+			this.lib.WriteNoGenreDetails ();
 		}
 		protected void OnScan(object sender, EventArgs e){
 			//sb.Pop (id);

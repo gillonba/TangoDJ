@@ -8,7 +8,7 @@ namespace TangoDJ.Library
 	/// </summary>
 	public class SongInfo
 	{
-		private static readonly Dictionary<string, string> _fieldMap = new Dictionary<string, string>() {
+		public static readonly Dictionary<string, string> _fieldMap = new Dictionary<string, string>() {
 			{ "TALB", "Album" },
 			{ "TBPM", "BPM" },
 			{ "TCOM", "Composer" },
@@ -47,8 +47,23 @@ namespace TangoDJ.Library
 		private System.Collections.Generic.Dictionary<string, string> _fieldValues = new System.Collections.Generic.Dictionary<string, string>();
 
 		public string Album		{get{return _fieldValues["TALB"];} private set{ _fieldValues.Add ("TALB", value);}}
-		public string Artist	{get{return _fieldValues["TOPE"];} private set{ _fieldValues.Add ("TOPE", value);}}
+		public string Artist	{
+			get{
+				if(_fieldValues.ContainsKey ("TOPE") && !String.IsNullOrWhiteSpace (_fieldValues["TOPE"]))
+					return _fieldValues["TOPE"];
+				else if(_fieldValues.ContainsKey ("TPE2") && !String.IsNullOrWhiteSpace (_fieldValues["TPE2"]))
+					return _fieldValues["TPE2"];
+				else if(_fieldValues.ContainsKey ("TPE1") && !String.IsNullOrWhiteSpace (_fieldValues["TPE1"]))
+					return _fieldValues["TPE1"];
+				else
+					return "";
+			} 
+			//TODO: Remove set
+			private set{ _fieldValues.Add ("TOPE", value);}
+		}
 		public string ContentType	{get{return (_fieldValues.ContainsKey ("TCON")) ? _fieldValues["TCON"] : "";} private set{ _fieldValues.Add ("TCON", value);}}
+		public Dictionary<string,string>.KeyCollection FieldKeys	{get{return _fieldValues.Keys;}}
+		public Dictionary<string,string>.ValueCollection FieldValues	{get{return _fieldValues.Values;}}
 		public string Genre		{get{return "";}}
 		public string LeadPerformer	{get{return _fieldValues["TPE1"];} private set{ _fieldValues.Add ("TPE1", value);}}
 		public string Path		{get; private set;}
@@ -113,6 +128,19 @@ namespace TangoDJ.Library
 
 			
 			//Name = System.IO.Path.GetFileNameWithoutExtension (path);
+			//throw new NotImplementedException();
+		}
+
+		public Newtonsoft.Json.Linq.JObject GetJSON(){
+			Newtonsoft.Json.Linq.JObject ret = new Newtonsoft.Json.Linq.JObject();
+
+			ret.Add ("Path", Path);
+
+			foreach(string k in _fieldValues.Keys){
+				ret.Add (k, _fieldValues[k]);
+			}
+
+			return ret;
 			//throw new NotImplementedException();
 		}
 	}
