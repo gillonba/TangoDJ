@@ -19,6 +19,7 @@ namespace TangoDJ.Library
 			{ "TDRC", "Recording time" },
 			{ "TDRL", "Release time" },
 			{ "TENC", "Encoded by" },
+			{ "TEXT", "Lyricist/Text writer" },
 			{ "TFLT", "File type" },
 			{ "TIME", "Time" },
 			{ "TIT1", "Content group description" },
@@ -28,13 +29,17 @@ namespace TangoDJ.Library
 			{ "TLAN", "Language(s)" },
 			{ "TLEN", "Length" },
 			{ "TMED", "Media Type" },
+			{ "TOAL", "Original album/movie/show title" },
+			{ "TOLY", "Original lyricist(s)/text writer(s)" },
 			{ "TOPE", "Original artist(s)/performer(s)" },
 			{ "TPE1", "Lead performer(s)/Soloist(s)" },
 			{ "TPE2", "Band/orchestra/accompaniment" },
 			{ "TPE3", "Conductor/performer refinement" },
+			{ "TPE4", "Interpreted, remixed, or otherwise modified by" },
 			{ "TPOS", "Part of a set" },
 			{ "TPUB", "Publisher" },
 			{ "TRCK", "Track number/Position in set" },
+			{ "TRSN", "Internet Radio Station Name" },
 			{ "TSIZ", "Size" },
 			{ "TSSE", "Software/Hardware and settings used for encoding" },
 			{ "TYER", "Year" },
@@ -42,6 +47,7 @@ namespace TangoDJ.Library
 			{ "WOAF", "Official audio file webpage" },
 			{ "WOAR", "Official artist/performer webpage" },
 			{ "WOAS", "Official audio source webpage" },
+			{ "WORS", "Official Internet radio station homepage"},
 			{ "WPAY", "Payment" }
 		};
 		private System.Collections.Generic.Dictionary<string, string> _fieldValues = new System.Collections.Generic.Dictionary<string, string>();
