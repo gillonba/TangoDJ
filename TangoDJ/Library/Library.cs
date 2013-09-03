@@ -162,7 +162,7 @@ namespace TangoDJ.Library
 			
 			string[] directories = System.IO.Directory.GetDirectories (path);
 			foreach(string d in directories){
-				if(!System.IO.Path.GetFileName (d).StartsWith ("."))
+				if(!System.IO.Path.GetFileName (d).StartsWith (".") || System.IO.Path.GetFileName (d) == ".ubuntuone")
 					Scan (d);
 			}
 		}
@@ -182,15 +182,18 @@ namespace TangoDJ.Library
 			w.Close ();
 		}
 		public void WriteNoGenreDetails(){
-			Newtonsoft.Json.Linq.JObject o = new Newtonsoft.Json.Linq.JObject();
+			//Newtonsoft.Json.Linq.JObject o = new Newtonsoft.Json.Linq.JObject();
+			Newtonsoft.Json.Linq.JArray ja = new Newtonsoft.Json.Linq.JArray();
 
 			if(System.IO.File.Exists (System.IO.Path.Combine(Environment.CurrentDirectory, "nogenredetails.json"))) System.IO.File.Delete (System.IO.Path.Combine(Environment.CurrentDirectory, "nogenredetails.json"));
 			foreach(SongInfo si in _noGenre.Items){
-				System.IO.File.AppendAllText (System.IO.Path.Combine(Environment.CurrentDirectory, "nogenredetails.json"), si.GetJSON ().ToString ());
+				//System.IO.File.AppendAllText (System.IO.Path.Combine(Environment.CurrentDirectory, "nogenredetails.json"), si.GetJSON ().ToString ());
 				//o.Add (si.GetJSON ());
 				//o.Add (si);
+				ja.Add (si.GetJSON ());
 			}
 			//System.IO.File.WriteAllText (System.IO.Path.Combine(Environment.CurrentDirectory, "nogenredetails.json"), o.ToString ());
+			System.IO.File.WriteAllText (System.IO.Path.Combine (Environment.CurrentDirectory, "nogenredetails.json"), ja.ToString ());
 		}
 	}
 }
