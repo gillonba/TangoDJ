@@ -16,15 +16,18 @@ namespace TangoDJ.Library
 		public string[] ArtistContains{get;set;}
 		public int		Count{ get { return _songs.Count; } }
 		public string[] GenreContains{get;set;}
+		public bool		LastTanda{get; set;}
 		public string	Name{get;private set;}
 		public bool		Selectable{get; set;}
+		public string[] TitleContains{get;set;}
 
 		public Genre (string name)
 		{
 			this.ArtistContains = new string[0];
 			this.GenreContains = new string[0];
+			this.LastTanda = false;
 			this.Name = name;
-			
+			this.TitleContains = new string[0];
 		}
 		public bool AddIfMemberOfGenre(SongInfo s){
 			if(IsMemberOfGenre(s)){
@@ -62,6 +65,10 @@ namespace TangoDJ.Library
 			
 			foreach(string gc in GenreContains){
 				if(s.ContentType != null && s.ContentType.ToLower ().Contains (gc.ToLower ())) return true;
+			}
+
+			foreach(string tc in TitleContains){
+				if(s.Title != null && s.Title.ToLower ().Contains (tc.ToLower ())) return true;
 			}
 			
 			return false;

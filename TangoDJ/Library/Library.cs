@@ -58,8 +58,18 @@ namespace TangoDJ.Library
 					}
 					g.GenreContains = genreContains.ToArray ();
 				}
+				if(go.SelectToken ("lasttanda") != null){
+					g.LastTanda = bool.Parse (go["lasttanda"].ToString ());
+				}
 				if(go.SelectToken ("selectable") != null){
 					g.Selectable=bool.Parse (go["selectable"].ToString ());
+				}
+				if(go.SelectToken ("titlecontains") != null){
+					System.Collections.Generic.List<string> titleContains = new System.Collections.Generic.List<string>();
+					foreach(var gc in go["titlecontains"]){
+						titleContains.Add (gc.ToString ());
+					}
+					g.TitleContains = titleContains.ToArray ();
 				}
 				_genreList.Add (g);
 			}

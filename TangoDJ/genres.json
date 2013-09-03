@@ -6,6 +6,11 @@
 			"selectable":"false"
 		},
 		{
+			"name":"Last Tanda",
+			"titlecontains":["la cumparsita"],
+			"selectable":"false"
+		},
+		{
 			"name":"Milonga",
 			"genrecontains":["milonga"],
 			"selectable":"true"
