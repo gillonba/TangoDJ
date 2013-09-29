@@ -102,18 +102,10 @@ namespace TangoDJ.Player
         			string msg;
         			message.ParseError (out err, out msg);
         			Console.WriteLine ("Gstreamer error: {0}", msg);
-        			//loop.Quit ();
         			break;
       		case Gst.MessageType.Eos:
-        		//if (song_idx >= songs.Length) {
-         			//Console.WriteLine ("Thank you, come again");
-          			//loop.Quit ();
-        		//} else {
          			_play.SetState (Gst.State.Null);
-          			//play.Uri = songs[song_idx++].AbsoluteUri;
-          			//play.SetState (Gst.State.Playing);
 					Play ();
-        		//}
         		break;
     		}
 
