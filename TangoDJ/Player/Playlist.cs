@@ -13,10 +13,10 @@ namespace TangoDJ
 				if(_currentSongIndex >= CurrentTanda.Songs.Count) return CurrentTanda.Cortina;
 				else return CurrentTanda.Songs[_currentSongIndex];
 			}}
-		public Library.Tanda CurrentTanda{ 
+		public Library.Tanda CurrentTanda{
 			get{
 				if(_currentTandaIndex >= _tandaList.Count) return null;
-				return _tandaList[_currentTandaIndex]; 
+				return _tandaList[_currentTandaIndex];
 			} }
 		
 		public Playlist ()
@@ -34,7 +34,9 @@ namespace TangoDJ
 			throw new NotImplementedException();
 		}
 		public void AdvanceTanda(){
-			throw new NotImplementedException();
+			//throw new NotImplementedException();
+			_currentSongIndex = 0;
+			_currentTandaIndex++;
 		}
 		public void Advance(){
 			if(CurrentTanda == null) return;

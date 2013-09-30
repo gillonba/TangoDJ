@@ -24,13 +24,15 @@ namespace TangoDJ.Player
 		public void NextSong(){
 			Stop ();
 			Play ();
-			//throw new NotImplementedException();
 		}
 		public void NextTanda(){
-			throw new NotImplementedException();
+			//throw new NotImplementedException();
+			Stop ();
+			_nowPlaying.AdvanceTanda ();
+			Play ();
 		}
 		public void Pause(){
-			throw new NotImplementedException();
+			_play.SetState (Gst.State.Paused);
 		}
 		public void Play(){
 			//Uri[] songs = new Uri[] {new Uri(PopNext ())};
@@ -38,10 +40,14 @@ namespace TangoDJ.Player
 				Gst.State currentState;
 				_play.GetState (out currentState, 1);
 				if(currentState == State.Playing) return;
+				else if(currentState == State.Paused) {
+					_play.SetState (Gst.State.Playing);
+					if(Playing != null) Playing(this, new EventArgs());
+					return;
+				}
 			}
 
 			Advance ();
-
 
 	    	Gst.Application.Init ();
 
@@ -65,7 +71,6 @@ namespace TangoDJ.Player
 				//For now, just pick a genre at random from the list.  Re-write this later
 				Random rand = new Random();
 
-				//System.Collections.Generic.List<Library.Genre> gl = new System.Collections.Generic.List<Library.Genre>(_library.Genres);
 				System.Collections.Generic.List<Library.Genre> gl = 
 					(from g in _library.Genres 
 					where g.Selectable == true

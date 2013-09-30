@@ -17,7 +17,7 @@ public partial class MainWindow: Gtk.Window
 
 			this.Title = "Tango DJ";
 			
-			SetDefaultSize(250, 200);
+			SetDefaultSize(450, 200);
         	SetPosition(WindowPosition.Center);
         	DeleteEvent += delegate { Application.Quit(); };
 
