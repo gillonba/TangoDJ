@@ -33,7 +33,7 @@ namespace TangoDJ.Player
 		}
 		public void Pause(){
 			_play.SetState (Gst.State.Paused);
-		}
+		} 
 		public void Play(){
 			//Uri[] songs = new Uri[] {new Uri(PopNext ())};
 			if(_play != null){

@@ -29,7 +29,7 @@ namespace TangoDJ.Library
 			this.Name = name;
 			this.TitleContains = new string[0];
 		}
-		public bool AddIfMemberOfGenre(SongInfo s){
+		public bool		AddIfMemberOfGenre(SongInfo s){
 			if(IsMemberOfGenre(s)){
 				_songs.Add (s);
 				return true;
@@ -58,7 +58,7 @@ namespace TangoDJ.Library
 
 			//throw new NotImplementedException();
 		}
-		public bool IsMemberOfGenre(SongInfo s){
+		public bool 	IsMemberOfGenre(SongInfo s){
 			foreach(string ac in ArtistContains){
 				if(s.Artist != null && s.Artist.ToLower ().Contains (ac.ToLower ())) return true;
 			}

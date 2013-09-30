@@ -11,7 +11,7 @@ public partial class MainWindow: Gtk.Window
 		private Label LblStatus;
 		
 		public MainWindow (Library.Library l): base (Gtk.WindowType.Toplevel)
-		{
+		{ 
 			lib = l;
 			this.player = new Player.Player(lib);
 

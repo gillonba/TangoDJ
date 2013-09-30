@@ -3,7 +3,7 @@ using System;
 namespace TangoDJ
 {
 	public class Playlist
-	{
+	{ 
 		private int _currentSongIndex = 0;
 		private int _currentTandaIndex = 0;
 		private System.Collections.Concurrent.ConcurrentDictionary<int, Library.Tanda> _tandaList = new System.Collections.Concurrent.ConcurrentDictionary<int, Library.Tanda>();
