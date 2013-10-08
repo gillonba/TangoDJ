@@ -181,7 +181,7 @@ namespace TangoDJ.Library
 			w.Flush ();
 			w.Close ();
 		}
-		public void WriteNoGenreDetails(){
+		public  void WriteNoGenreDetails(){
 			//Newtonsoft.Json.Linq.JObject o = new Newtonsoft.Json.Linq.JObject();
 			Newtonsoft.Json.Linq.JArray ja = new Newtonsoft.Json.Linq.JArray();
 
