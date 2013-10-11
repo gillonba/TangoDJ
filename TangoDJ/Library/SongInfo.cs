@@ -80,43 +80,109 @@ namespace TangoDJ.Library
 		/// </value>
 		public string Artist
 		{
-			get{
-				if(_fieldValues.ContainsKey ("TOPE") && !String.IsNullOrWhiteSpace (_fieldValues["TOPE"]))
-					return _fieldValues["TOPE"];
-				else if(_fieldValues.ContainsKey ("TPE2") && !String.IsNullOrWhiteSpace (_fieldValues["TPE2"]))
-					return _fieldValues["TPE2"];
-				else if(_fieldValues.ContainsKey ("TPE1") && !String.IsNullOrWhiteSpace (_fieldValues["TPE1"]))
-					return _fieldValues["TPE1"];
+			get
+			{
+				if(this._fieldValues.ContainsKey ("TOPE") && !String.IsNullOrWhiteSpace (this._fieldValues["TOPE"]))
+					return this._fieldValues["TOPE"];
+				else if(this._fieldValues.ContainsKey ("TPE2") && !String.IsNullOrWhiteSpace (this._fieldValues["TPE2"]))
+					return this._fieldValues["TPE2"];
+				else if(this._fieldValues.ContainsKey ("TPE1") && !String.IsNullOrWhiteSpace (this._fieldValues["TPE1"]))
+				{ return this._fieldValues["TPE1"]; }
 				else
-					return "";
+				{ 
+					return string.Empty; }
 			} 
 			//TODO: Remove set
-			private set{ _fieldValues.Add ("TOPE", value);}
+			private set{ this._fieldValues.Add ("TOPE", value);}
 		}
+
+		/// <summary>
+		/// Gets the type of the content.
+		/// </summary>
+		/// <value>
+		/// The type of the content.
+		/// </value>
 		public string ContentType	{get{return (_fieldValues.ContainsKey ("TCON")) ? _fieldValues["TCON"] : "";} private set{ _fieldValues.Add ("TCON", value);}}
-		public Dictionary<string,string>.KeyCollection FieldKeys	{get{return _fieldValues.Keys;}}
-		public Dictionary<string,string>.ValueCollection FieldValues	{get{return _fieldValues.Values;}}
-		public string Genre		{get{return "";}}
-		public string LeadPerformer	{get{return _fieldValues["TPE1"];} private set{ _fieldValues.Add ("TPE1", value);}}
-		public string Path		{get; private set;}
-		public string Title		{get{return _fieldValues["TIT2"];} private set{ _fieldValues.Add ("TIT2", value);}}
 
-		public SongInfo (string path)
+		/// <summary>
+		/// Gets the field keys.
+		/// </summary>
+		/// <value>
+		/// The field keys.
+		/// </value>
+		public Dictionary<string, string>.KeyCollection FieldKeys	
 		{
-			Path = path;
+			get{return _fieldValues.Keys;}
+		}
 
-			try{
+		/// <summary>
+		/// Gets the field values.
+		/// </summary>
+		/// <value>
+		/// The field values.
+		/// </value>
+		public Dictionary<string,string>.ValueCollection FieldValues	{get{return _fieldValues.Values;}}
+
+		/// <summary>
+		/// Gets the genre.
+		/// </summary>
+		/// <value>
+		/// The genre.
+		/// </value>
+		public string Genre	{ get { return ""; } }
+
+		/// <summary>
+		/// Gets the lead performer.
+		/// </summary>
+		/// <value>
+		/// The lead performer.
+		/// </value>
+		public string LeadPerformer	{ get { return this._fieldValues["TPE1"]; } private set { this._fieldValues.Add("TPE1", value);}}
+
+		/// <summary>
+		/// Gets the path.
+		/// </summary>
+		/// <value>
+		/// The path.
+		/// </value>
+		public string Path		{ get; private set; }
+
+		/// <summary>
+		/// Gets the title.
+		/// </summary>
+		/// <value>
+		/// The title.
+		/// </value>
+		public string Title		{
+			get{return this._fieldValues["TIT2"];} 
+			private set{ this._fieldValues.Add ("TIT2", value);}
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="TangoDJ.Library.SongInfo"/> class.
+		/// </summary>
+		/// <param name='path'>
+		/// The full path to the file
+		/// </param>
+		public SongInfo(string path)
+		{
+			this.Path = path;
+
+			try
+			{
 				ID3.ID3Info i = new ID3.ID3Info(path, true);
 
-				Album = i.ID3v1Info.Album;
-				Artist = i.ID3v1Info.Artist;
-				//Genre = i.ID3v1Info.Genre;
-				Title = i.ID3v1Info.Title;
+				this.Artist = i.ID3v1Info.Artist;
+				this.Title = i.ID3v1Info.Title;
 
-				foreach(ID3.ID3v2Frames.TextFrames.TextFrame tf in i.ID3v2Info.TextFrames){
-					if(FieldMap.ContainsKey(tf.FrameID)){
-						if(_fieldValues.ContainsKey (tf.FrameID)) _fieldValues[tf.FrameID] = tf.Text; else _fieldValues.Add (tf.FrameID, tf.Text);
-					} else {
+				foreach (ID3.ID3v2Frames.TextFrames.TextFrame tf in i.ID3v2Info.TextFrames)
+				{
+					if (FieldMap.ContainsKey(tf.FrameID))
+					{
+						if (_fieldValues.ContainsKey(tf.FrameID)) { this._fieldValues[tf.FrameID] = tf.Text; } else { this._fieldValues.Add(tf.FrameID, tf.Text); }
+					} 
+					else 
+					{
 						System.Console.WriteLine("Could not handle TextFrame " + tf.FrameID + " for song " + path);
 					}
 				}
@@ -154,8 +220,10 @@ namespace TangoDJ.Library
 					else if(tf.FrameID == "WPAY") Payment = tf.Text;
 					else System.Console.WriteLine("Could not handle TextFrame " + tf.FrameID + " for song " + path); //throw new NotImplementedException("Could not handle TextFrame " + tf.FrameID + " for song " + path);
 				} */
-			}catch(System.ArgumentOutOfRangeException aoore){
-				System.Console.WriteLine (path + Environment.NewLine + aoore.ToString ());
+			} 
+			catch (System.ArgumentOutOfRangeException aoore)
+			{
+				System.Console.WriteLine(path + Environment.NewLine + aoore.ToString());
 			}
 		}
 
@@ -171,7 +239,7 @@ namespace TangoDJ.Library
 
 			ret.Add("Path", this.Path);
 
-			foreach(string k in this._fieldValues.Keys)
+			foreach (string k in this._fieldValues.Keys)
 			{
 				ret.Add(k, this._fieldValues[k]);
 			}
