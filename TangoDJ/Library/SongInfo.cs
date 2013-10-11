@@ -169,10 +169,11 @@ namespace TangoDJ.Library
 		{
 			Newtonsoft.Json.Linq.JObject ret = new Newtonsoft.Json.Linq.JObject();
 
-			ret.Add ("Path", this.Path);
+			ret.Add("Path", this.Path);
 
-			foreach(string k in this._fieldValues.Keys){
-				ret.Add (k, this._fieldValues[k]);
+			foreach(string k in this._fieldValues.Keys)
+			{
+				ret.Add(k, this._fieldValues[k]);
 			}
 
 			return ret;
