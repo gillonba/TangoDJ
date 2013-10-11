@@ -1,14 +1,18 @@
-using System;
-using System.Collections.Generic;
-
 namespace TangoDJ.Library
 {
+	using System;
+	using System.Collections.Generic;
+
 	/// <summary>
 	/// Represents a song on the hard drive.  Additionally, exposes common properties that are useful for categorizing songs
 	/// </summary>
 	public class SongInfo
 	{
-		public static readonly Dictionary<string, string> _fieldMap = new Dictionary<string, string>() {
+		/// <summary>
+		/// This dictionary contains all valid ID3v2 tag codes along with their names
+		/// </summary>
+		public static readonly Dictionary<string, string> FieldMap = new Dictionary<string, string>() 
+		{
 			{ "TALB", "Album" },
 			{ "TBPM", "BPM" },
 			{ "TCOM", "Composer" },
@@ -47,13 +51,35 @@ namespace TangoDJ.Library
 			{ "WOAF", "Official audio file webpage" },
 			{ "WOAR", "Official artist/performer webpage" },
 			{ "WOAS", "Official audio source webpage" },
-			{ "WORS", "Official Internet radio station homepage"},
+			{ "WORS", "Official Internet radio station homepage" },
 			{ "WPAY", "Payment" }
 		};
+
+		/// <summary>
+		/// This field contains all the ID3v2 tags found in the corresponding file.
+		/// </summary>
 		private System.Collections.Generic.Dictionary<string, string> _fieldValues = new System.Collections.Generic.Dictionary<string, string>();
 
-		public string Album		{get{return _fieldValues["TALB"];} private set{ _fieldValues.Add ("TALB", value);}}
-		public string Artist	{
+		/// <summary>
+		/// Gets the album name
+		/// </summary>
+		/// <value>
+		/// The album name
+		/// </value>
+		public string Album		
+		{
+			get { return this._fieldValues["TALB"]; } 
+			private set { this._fieldValues.Add("TALB", value); }
+		}
+
+		/// <summary>
+		/// Gets the artist name
+		/// </summary>
+		/// <value>
+		/// The artist name
+		/// </value>
+		public string Artist
+		{
 			get{
 				if(_fieldValues.ContainsKey ("TOPE") && !String.IsNullOrWhiteSpace (_fieldValues["TOPE"]))
 					return _fieldValues["TOPE"];
@@ -88,7 +114,7 @@ namespace TangoDJ.Library
 				Title = i.ID3v1Info.Title;
 
 				foreach(ID3.ID3v2Frames.TextFrames.TextFrame tf in i.ID3v2Info.TextFrames){
-					if(_fieldMap.ContainsKey(tf.FrameID)){
+					if(FieldMap.ContainsKey(tf.FrameID)){
 						if(_fieldValues.ContainsKey (tf.FrameID)) _fieldValues[tf.FrameID] = tf.Text; else _fieldValues.Add (tf.FrameID, tf.Text);
 					} else {
 						System.Console.WriteLine("Could not handle TextFrame " + tf.FrameID + " for song " + path);
@@ -131,24 +157,25 @@ namespace TangoDJ.Library
 			}catch(System.ArgumentOutOfRangeException aoore){
 				System.Console.WriteLine (path + Environment.NewLine + aoore.ToString ());
 			}
-
-			
-			//Name = System.IO.Path.GetFileNameWithoutExtension (path);
-			//throw new NotImplementedException();
 		}
 
-		public Newtonsoft.Json.Linq.JObject GetJSON(){
+		/// <summary>
+		/// Gets a JSON object containing the relevant information on this SongInfo object
+		/// </summary>
+		/// <returns>
+		/// The JSON object
+		/// </returns>
+		public Newtonsoft.Json.Linq.JObject GetJSON()
+		{
 			Newtonsoft.Json.Linq.JObject ret = new Newtonsoft.Json.Linq.JObject();
 
-			ret.Add ("Path", Path);
+			ret.Add ("Path", this.Path);
 
-			foreach(string k in _fieldValues.Keys){
-				ret.Add (k, _fieldValues[k]);
+			foreach(string k in this._fieldValues.Keys){
+				ret.Add (k, this._fieldValues[k]);
 			}
 
 			return ret;
-			//throw new NotImplementedException();
 		}
 	}
 }
-
