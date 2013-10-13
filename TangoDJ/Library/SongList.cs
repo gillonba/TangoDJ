@@ -9,28 +9,45 @@ namespace TangoDJ.Library
 	/// </summary>
 	public class SongList
 	{
-		
+		/// <summary>
+		/// An index of all the artists in the song list
+		/// </summary>
 		private readonly IList<string> _idxArtists = new List<string>();
-		//private System.Collections.Concurrent.ConcurrentDictionary<string, System.Collections.Concurrent.ConcurrentBag<SongInfo>> _idxArtistSongs = new System.Collections.Concurrent.ConcurrentDictionary<string, System.Collections.Concurrent.ConcurrentBag<SongInfo>>();
+
+		/// <summary>
+		/// The locking variable used for non thread-safe functions
+		/// </summary>
 		private readonly object _lock = new object();
+
+		/// <summary>
+		/// The _readonly artists.
+		/// </summary>
 		private ReadOnlyCollection<string> _readonlyArtists;
 		private ReadOnlyCollection<SongInfo> _readonlySongs;
 		private readonly IList<SongInfo> _songs = new List<SongInfo>();
 
 		public ReadOnlyCollection<string> Artists{
 			get{
-				if(_readonlyArtists == null) { _readonlyArtists = new ReadOnlyCollection<string>(_idxArtists);}
-				return _readonlyArtists;
+				if(this._readonlyArtists == null) { _readonlyArtists = new ReadOnlyCollection<string>(_idxArtists);}
+				return this._readonlyArtists;
 			}
 		}
-		public int Count{get{return _songs.Count;}}
-		public ReadOnlyCollection<SongInfo> Items{
-			get{
-				if(_readonlySongs == null) { _readonlySongs = new ReadOnlyCollection<SongInfo>(_songs);	}
+		public int Count
+		{ 
+			get { return this._songs.Count; } 
+		}
+		public ReadOnlyCollection<SongInfo> Items
+		{
+			get
+			{
+				if(_readonlySongs == null) { this._readonlySongs = new ReadOnlyCollection<SongInfo>(_songs);	}
 				return _readonlySongs;
 			}
 		}
-		
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="TangoDJ.Library.SongList"/> class.
+		/// </summary>
 		public SongList ()
 		{
 		}
@@ -44,38 +61,36 @@ namespace TangoDJ.Library
 		/// <exception cref='NotImplementedException'>
 		/// Is thrown when a requested operation is not implemented for a given type.
 		/// </exception>
-		public void Add(SongInfo s){
-			//throw new NotImplementedException();
-			lock(_lock){
+		public void Add(SongInfo s)
+		{
+			lock(_lock)
+			{
 				_songs.Add (s);
 				if(!_idxArtists.Contains (s.Artist)){	_idxArtists.Add (s.Artist);	}
+			}
+		}
 
-				//ClearIndexes ();
+		public void AddRange(IEnumerable<SongInfo> songs)
+		{
+			lock(_lock)
+			{
+				foreach(SongInfo s in songs) { this.Add(s); }
 			}
 		}
-		public void AddRange(IEnumerable<SongInfo> songs){
-			lock(_lock){
-				foreach(SongInfo s in songs){Add (s);}
-			}
-		}
-		private void ClearIndexes(){
+
+		private void ClearIndexes()
+		{
 			throw new NotImplementedException();
-			//_idxArtistSongs = null;
 		}
-		public SongInfo[] GetByArtist(string artist){
+
+		public SongInfo[] GetByArtist(string artist)
+		{
 			throw new NotImplementedException();
-			//if(_idxArtistSongs == null) RebuildArtistIndex ();
-			//return _idxArtistSongs[artist].ToArray ();
 		}
-		private void RebuildArtistIndex(){
+
+		private void RebuildArtistIndex()
+		{
 			throw new NotImplementedException();
-			//foreach(SongInfo si in _songs){
-			//	if(!_idxArtistSongs.ContainsKey (si.Artist)){
-			//		_idxArtistSongs.AddOrUpdate (si.Artist, new System.Collections.Concurrent.ConcurrentBag<SongInfo>);
-			//	}
-			//}
 		}
 	}
-
 }
-

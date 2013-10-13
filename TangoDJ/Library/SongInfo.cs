@@ -61,104 +61,6 @@ namespace TangoDJ.Library
 		private System.Collections.Generic.Dictionary<string, string> _fieldValues = new System.Collections.Generic.Dictionary<string, string>();
 
 		/// <summary>
-		/// Gets the album name
-		/// </summary>
-		/// <value>
-		/// The album name
-		/// </value>
-		public string Album		
-		{
-			get { return this._fieldValues["TALB"]; } 
-			private set { this._fieldValues.Add("TALB", value); }
-		}
-
-		/// <summary>
-		/// Gets the artist name
-		/// </summary>
-		/// <value>
-		/// The artist name
-		/// </value>
-		public string Artist
-		{
-			get
-			{
-				if(this._fieldValues.ContainsKey ("TOPE") && !String.IsNullOrWhiteSpace (this._fieldValues["TOPE"]))
-					return this._fieldValues["TOPE"];
-				else if(this._fieldValues.ContainsKey ("TPE2") && !String.IsNullOrWhiteSpace (this._fieldValues["TPE2"]))
-					return this._fieldValues["TPE2"];
-				else if(this._fieldValues.ContainsKey ("TPE1") && !String.IsNullOrWhiteSpace (this._fieldValues["TPE1"]))
-				{ return this._fieldValues["TPE1"]; }
-				else
-				{ 
-					return string.Empty; }
-			} 
-			//TODO: Remove set
-			private set{ this._fieldValues.Add ("TOPE", value);}
-		}
-
-		/// <summary>
-		/// Gets the type of the content.
-		/// </summary>
-		/// <value>
-		/// The type of the content.
-		/// </value>
-		public string ContentType	{get{return (_fieldValues.ContainsKey ("TCON")) ? _fieldValues["TCON"] : "";} private set{ _fieldValues.Add ("TCON", value);}}
-
-		/// <summary>
-		/// Gets the field keys.
-		/// </summary>
-		/// <value>
-		/// The field keys.
-		/// </value>
-		public Dictionary<string, string>.KeyCollection FieldKeys	
-		{
-			get{return _fieldValues.Keys;}
-		}
-
-		/// <summary>
-		/// Gets the field values.
-		/// </summary>
-		/// <value>
-		/// The field values.
-		/// </value>
-		public Dictionary<string,string>.ValueCollection FieldValues	{get{return _fieldValues.Values;}}
-
-		/// <summary>
-		/// Gets the genre.
-		/// </summary>
-		/// <value>
-		/// The genre.
-		/// </value>
-		public string Genre	{ get { return ""; } }
-
-		/// <summary>
-		/// Gets the lead performer.
-		/// </summary>
-		/// <value>
-		/// The lead performer.
-		/// </value>
-		public string LeadPerformer	{ get { return this._fieldValues["TPE1"]; } private set { this._fieldValues.Add("TPE1", value);}}
-
-		/// <summary>
-		/// Gets the path.
-		/// </summary>
-		/// <value>
-		/// The path.
-		/// </value>
-		public string Path		{ get; private set; }
-
-		/// <summary>
-		/// Gets the title.
-		/// </summary>
-		/// <value>
-		/// The title.
-		/// </value>
-		public string Title		{
-			get{return this._fieldValues["TIT2"];} 
-			private set{ this._fieldValues.Add ("TIT2", value);}
-		}
-
-		/// <summary>
 		/// Initializes a new instance of the <see cref="TangoDJ.Library.SongInfo"/> class.
 		/// </summary>
 		/// <param name='path'>
@@ -167,19 +69,20 @@ namespace TangoDJ.Library
 		public SongInfo(string path)
 		{
 			this.Path = path;
-
+			
 			try
 			{
 				ID3.ID3Info i = new ID3.ID3Info(path, true);
-
+				
 				this.Artist = i.ID3v1Info.Artist;
 				this.Title = i.ID3v1Info.Title;
-
+				
 				foreach (ID3.ID3v2Frames.TextFrames.TextFrame tf in i.ID3v2Info.TextFrames)
 				{
 					if (FieldMap.ContainsKey(tf.FrameID))
 					{
-						if (_fieldValues.ContainsKey(tf.FrameID)) { this._fieldValues[tf.FrameID] = tf.Text; } else { this._fieldValues.Add(tf.FrameID, tf.Text); }
+						if (this._fieldValues.ContainsKey(tf.FrameID)) { this._fieldValues[tf.FrameID] = tf.Text; } 
+						else { this._fieldValues.Add(tf.FrameID, tf.Text); }
 					} 
 					else 
 					{
@@ -225,6 +128,122 @@ namespace TangoDJ.Library
 			{
 				System.Console.WriteLine(path + Environment.NewLine + aoore.ToString());
 			}
+		}
+
+		/// <summary>
+		/// Gets the album name
+		/// </summary>
+		/// <value>
+		/// The album name
+		/// </value>
+		public string Album		
+		{
+			get { return this._fieldValues["TALB"]; } 
+			private set { this._fieldValues.Add("TALB", value); }
+		}
+
+		/// <summary>
+		/// Gets the artist name
+		/// </summary>
+		/// <value>
+		/// The artist name
+		/// </value>
+		public string Artist
+		{
+			get
+			{
+				if (this._fieldValues.ContainsKey("TOPE") && !string.IsNullOrWhiteSpace(this._fieldValues["TOPE"]))
+				{ return this._fieldValues["TOPE"]; }
+				else if (this._fieldValues.ContainsKey("TPE2") && !string.IsNullOrWhiteSpace(this._fieldValues["TPE2"]))
+				{ return this._fieldValues["TPE2"]; }
+				else if (this._fieldValues.ContainsKey("TPE1") && !string.IsNullOrWhiteSpace(this._fieldValues["TPE1"]))
+				{ return this._fieldValues["TPE1"]; }
+				else
+				{ return string.Empty; }
+			} 
+
+			////TODO: Remove set
+			private set 
+			{ 
+				this._fieldValues.Add("TOPE", value); 
+			}
+		}
+
+		/// <summary>
+		/// Gets the type of the content.
+		/// </summary>
+		/// <value>
+		/// The type of the content.
+		/// </value>
+		public string ContentType	
+		{ 
+			get { return this._fieldValues.ContainsKey("TCON") ? this._fieldValues["TCON"] : string.Empty; } 
+			private set { this._fieldValues.Add("TCON", value); } 
+		}
+
+		/// <summary>
+		/// Gets the field keys.
+		/// </summary>
+		/// <value>
+		/// The field keys.
+		/// </value>
+		public Dictionary<string, string>.KeyCollection FieldKeys	
+		{
+			get { return this._fieldValues.Keys; }
+		}
+
+		/// <summary>
+		/// Gets the field values.
+		/// </summary>
+		/// <value>
+		/// The field values.
+		/// </value>
+		public Dictionary<string, string>.ValueCollection FieldValues 
+		{ 
+			get { return this._fieldValues.Values; } 
+		}
+
+		/// <summary>
+		/// Gets the genre.
+		/// </summary>
+		/// <value>
+		/// The genre.
+		/// </value>
+		public string Genre	
+		{ 
+			get { return string.Empty; } 
+		}
+
+		/// <summary>
+		/// Gets the lead performer.
+		/// </summary>
+		/// <value>
+		/// The lead performer.
+		/// </value>
+		public string LeadPerformer	
+		{ 
+			get { return this._fieldValues["TPE1"]; } 
+			private set { this._fieldValues.Add("TPE1", value); } 
+		}
+
+		/// <summary>
+		/// Gets the path.
+		/// </summary>
+		/// <value>
+		/// The path.
+		/// </value>
+		public string Path		{ get; private set; }
+
+		/// <summary>
+		/// Gets the title.
+		/// </summary>
+		/// <value>
+		/// The title.
+		/// </value>
+		public string Title
+		{
+			get { return this._fieldValues["TIT2"]; } 
+			private set { this._fieldValues.Add("TIT2", value); }
 		}
 
 		/// <summary>
