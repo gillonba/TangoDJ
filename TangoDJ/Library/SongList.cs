@@ -23,25 +23,49 @@ namespace TangoDJ.Library
 		/// The _readonly artists.
 		/// </summary>
 		private ReadOnlyCollection<string> _readonlyArtists;
+
+		/// <summary>
+		/// The _readonly songs.
+		/// </summary>
 		private ReadOnlyCollection<SongInfo> _readonlySongs;
+
+		/// <summary>
+		/// The backing variable containing all the songs
+		/// </summary>
 		private readonly IList<SongInfo> _songs = new List<SongInfo>();
 
-		public ReadOnlyCollection<string> Artists{
-			get{
+		/// <summary>
+		/// Gets the artists.
+		/// </summary>
+		/// <value>
+		/// The artists.
+		/// </value>
+		public ReadOnlyCollection<string> Artists
+		{
+			get
+			{
 				if(this._readonlyArtists == null) { _readonlyArtists = new ReadOnlyCollection<string>(_idxArtists);}
 				return this._readonlyArtists;
 			}
 		}
+
+		/// <summary>
+		/// Gets the number of songs in the list
+		/// </summary>
+		/// <value>
+		/// The count.
+		/// </value>
 		public int Count
 		{ 
 			get { return this._songs.Count; } 
 		}
+
 		public ReadOnlyCollection<SongInfo> Items
 		{
 			get
 			{
-				if(_readonlySongs == null) { this._readonlySongs = new ReadOnlyCollection<SongInfo>(_songs);	}
-				return _readonlySongs;
+				if(this._readonlySongs == null) { this._readonlySongs = new ReadOnlyCollection<SongInfo>(_songs); }
+				return this._readonlySongs;
 			}
 		}
 
@@ -88,6 +112,9 @@ namespace TangoDJ.Library
 			throw new NotImplementedException();
 		}
 
+		/// <summary>
+		/// Rebuilds the index of the artist.
+		/// </summary>
 		private void RebuildArtistIndex()
 		{
 			throw new NotImplementedException();

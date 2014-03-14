@@ -21,23 +21,36 @@ public partial class MainWindow: Gtk.Window
         	SetPosition(WindowPosition.Center);
         	DeleteEvent += delegate { Application.Quit(); };
 
-			VBox vbox = new VBox(false, 2);
-        	vbox.PackStart(BuildMenu (), false, false, 0);
-			
-			Table player = BuildPlayer ();
-			vbox.Add (player);
+			VBox win = new VBox(false, 2);
+			win.PackStart(BuildMenu(), false, false, 0);
 
+			HBox cols = new HBox(false, 2);
+
+			VBox vbox = new VBox(false, 2);
+        	//vbox.PackStart(BuildMenu (), false, false, 0);
+			Table player = BuildPlayer();
+			vbox.Add(player);
 			//Table si = BuildSongInfo ();
 			//vbox.Add (si);
 			si = new SongInfo();
-			vbox.Add (si.BuildSongInfo ());
-			
-			sb = BuildStatusBar ();
-			vbox.Add (sb);
+			vbox.Add(si.BuildSongInfo());
+
+			cols.Add(vbox);
+			foreach(Library.Genre g in l.Genres){
+				if(g.Selectable){
+					UI.GenreInfo gi = new GenreInfo(g);
+					cols.Add(gi.BuildGenreInfo());
+				}
+			}
 
 			//vbox.Add (new SongInfo());
-			
-        	Add(vbox);
+			win.Add(cols);
+
+			sb = BuildStatusBar();
+			win.Add(sb);
+
+        	//Add(vbox);
+			Add(win);
 
         	ShowAll();
 			
@@ -46,7 +59,7 @@ public partial class MainWindow: Gtk.Window
 			this.player.Playing += Player_Playing;
 			//Build ();
 
-			this.lib.StartScan ();
+			this.lib.StartScan();
 		}
 		
 		public MenuBar BuildMenu(){

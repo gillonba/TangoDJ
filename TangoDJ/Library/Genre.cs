@@ -21,7 +21,7 @@ namespace TangoDJ.Library
 		public bool		Selectable{get; set;}
 		public string[] TitleContains{get;set;}
 
-		public Genre (string name)
+		public Genre(string name)
 		{
 			this.ArtistContains = new string[0];
 			this.GenreContains = new string[0];

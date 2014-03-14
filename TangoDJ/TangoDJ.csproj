@@ -89,6 +89,7 @@
     <Compile Include="UI\SongInfo.cs" />
     <Compile Include="UI\SongList.cs" />
     <Compile Include="UI\SongInfoExtended.cs" />
+    <Compile Include="UI\GenreInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
